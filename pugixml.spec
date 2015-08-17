@@ -5,7 +5,7 @@ Version:	1.6
 Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	http://github.com/zeux/pugixml/archive/v%{version}.tar.gz?/%{name}-%{version}.tar.gz
+Source0:	http://github.com/zeux/pugixml/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	35d942d58bec80058f7641c6604729ea
 URL:		http://pugixml.org/
 BuildRequires:	libstdc++-devel
