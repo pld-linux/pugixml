@@ -1,13 +1,12 @@
 Summary:	C++ XML processing library
 Summary(pl.UTF-8):	Biblioteka C++ do przetwarzania XML-a
 Name:		pugixml
-Version:	1.2
-Release:	2
+Version:	1.6
+Release:	1
 License:	MIT
 Group:		Libraries
-#Source0Download: http://code.google.com/p/pugixml/downloads/list
-Source0:	http://pugixml.googlecode.com/files/%{name}-%{version}.tar.gz
-# Source0-md5:	477f4a7d75af0383f52ee6622b3f6035
+Source0:	http://github.com/zeux/pugixml/archive/v%{version}.tar.gz?/%{name}-%{version}.tar.gz
+# Source0-md5:	35d942d58bec80058f7641c6604729ea
 URL:		http://pugixml.org/
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
@@ -58,7 +57,7 @@ Static pugixml library.
 Statyczna biblioteka pugixml.
 
 %prep
-%setup -q -c
+%setup -q
 
 %build
 cd src
