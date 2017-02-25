@@ -1,0 +1,35 @@
+--- pugixml-1.8/CMakeLists.txt.orig	1970-01-01 01:00:00.000000000 +0100
++++ pugixml-1.8/CMakeLists.txt	2017-02-25 14:36:09.707346051 +0100
+@@ -50,11 +50,6 @@
+ set_target_properties(pugixml PROPERTIES VERSION 1.8 SOVERSION 1)
+ get_target_property(PUGIXML_VERSION_STRING pugixml VERSION)
+ 
+-if(BUILD_PKGCONFIG)
+-	# Install library into its own directory under LIBDIR
+-	set(INSTALL_SUFFIX /pugixml-${PUGIXML_VERSION_STRING})
+-endif()
+-
+ install(TARGETS pugixml EXPORT pugixml-config
+ 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}${INSTALL_SUFFIX}
+ 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}${INSTALL_SUFFIX}
+@@ -64,7 +59,7 @@
+ 
+ if(BUILD_PKGCONFIG)
+ 	configure_file(scripts/pugixml.pc.in ${PROJECT_BINARY_DIR}/pugixml.pc @ONLY)
+-	install(FILES ${PROJECT_BINARY_DIR}/pugixml.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
++	install(FILES ${PROJECT_BINARY_DIR}/pugixml.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/pkgconfig)
+ endif()
+ 
+ if(BUILD_TESTS)
+--- pugixml-1.8/scripts/pugixml.pc.in.orig	1970-01-01 01:00:00.000000000 +0100
++++ pugixml-1.8/scripts/pugixml.pc.in	2017-02-25 14:44:49.164006784 +0100
+@@ -1,7 +1,7 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=${prefix}
+-includedir=${prefix}/include/pugixml-@PUGIXML_VERSION_STRING@
+-libdir=${exec_prefix}/lib/pugixml-@PUGIXML_VERSION_STRING@
++includedir=${prefix}/include
++libdir=@CMAKE_INSTALL_LIBDIR@
+ 
+ Name: pugixml
+ Description: Light-weight, simple and fast XML parser for C++ with XPath support.

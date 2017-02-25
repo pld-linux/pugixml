@@ -1,16 +1,22 @@
+#
+# Conditional build:
+%bcond_without	static_libs	# static library
+#
 Summary:	C++ XML processing library
 Summary(pl.UTF-8):	Biblioteka C++ do przetwarzania XML-a
 Name:		pugixml
-Version:	1.6
-Release:	2
+Version:	1.8
+Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	http://github.com/zeux/pugixml/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	35d942d58bec80058f7641c6604729ea
+#Source0Download: http://pugixml.org/
+Source0:	http://github.com/zeux/pugixml/releases/download/v%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	ffa59ee4853958e243050e6b690b4f2e
 Patch0:		longlong.patch
+Patch1:		%{name}-pc.patch
 URL:		http://pugixml.org/
+BuildRequires:	cmake >= 2.6
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtool
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -60,18 +66,34 @@ Statyczna biblioteka pugixml.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
-cd src
-libtool --mode=compile %{__cxx} %{rpmcxxflags} -c pugixml.cpp
-libtool --mode=link %{__cxx} %{rpmldflags} %{rpmcxxflags} -o libpugixml.la pugixml.lo -rpath %{_libdir}
+install -d build
+cd build
+%cmake .. \
+	-DBUILD_PKGCONFIG=ON \
+	-DBUILD_SHARED_LIBS=ON
+cd ..
+
+%if %{with static_libs}
+install -d build-static
+cd build-static
+%cmake .. \
+	-DBUILD_SHARED_LIBS=OFF
+cd ..
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_libdir},%{_includedir}}
 
-libtool --mode=install install src/libpugixml.la $RPM_BUILD_ROOT%{_libdir}
-install src/pugi*.hpp $RPM_BUILD_ROOT%{_includedir}
+%if %{with static_libs}
+%{__make} -C build-static install \
+	DESTDIR=$RPM_BUILD_ROOT
+%endif
+
+%{__make} -C build install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -82,17 +104,20 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc readme.txt
-%attr(755,root,root) %{_libdir}/libpugixml.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libpugixml.so.0
+%attr(755,root,root) %{_libdir}/libpugixml.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libpugixml.so.1
 
 %files devel
 %defattr(644,root,root,755)
 %doc docs/*
 %attr(755,root,root) %{_libdir}/libpugixml.so
-%{_libdir}/libpugixml.la
 %{_includedir}/pugiconfig.hpp
 %{_includedir}/pugixml.hpp
+%{_pkgconfigdir}/pugixml.pc
+%{_libdir}/cmake/pugixml
 
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libpugixml.a
+%endif
