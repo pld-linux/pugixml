@@ -6,7 +6,7 @@ Summary:	C++ XML processing library
 Summary(pl.UTF-8):	Biblioteka C++ do przetwarzania XML-a
 Name:		pugixml
 Version:	1.8
-Release:	1
+Release:	2
 License:	MIT
 Group:		Libraries
 #Source0Download: http://pugixml.org/
