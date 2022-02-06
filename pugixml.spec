@@ -9,8 +9,8 @@ Version:	1.11.4
 Release:	2
 License:	MIT
 Group:		Libraries
-#Source0Download: http://pugixml.org/
-Source0:	http://github.com/zeux/pugixml/releases/download/v%{version}/%{name}-%{version}.tar.gz
+#Source0Download: https://github.com/zeux/pugixml/releases
+Source0:	https://github.com/zeux/pugixml/releases/download/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	2d2730d3412b08d3e70c795bc17003df
 Patch0:		longlong.patch
 URL:		http://pugixml.org/
