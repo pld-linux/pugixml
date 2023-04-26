@@ -5,17 +5,18 @@
 Summary:	C++ XML processing library
 Summary(pl.UTF-8):	Biblioteka C++ do przetwarzania XML-a
 Name:		pugixml
-Version:	1.11.4
-Release:	2
+Version:	1.13
+Release:	1
 License:	MIT
 Group:		Libraries
 #Source0Download: https://github.com/zeux/pugixml/releases
 Source0:	https://github.com/zeux/pugixml/releases/download/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	2d2730d3412b08d3e70c795bc17003df
+# Source0-md5:	3e4c588e03bdca140844f3c47c1a995e
 Patch0:		longlong.patch
-URL:		http://pugixml.org/
+URL:		https://pugixml.org/
 BuildRequires:	cmake >= 3.4
 BuildRequires:	libstdc++-devel
+BuildRequires:	rpm-build >= 4.6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -61,6 +62,18 @@ Static pugixml library.
 
 %description static -l pl.UTF-8
 Statyczna biblioteka pugixml.
+
+%package apidocs
+Summary:	API documentation for pugixml library
+Summary(pl.UTF-8):	Dokumentacja API biblioteki pugixml
+Group:		Documentation
+BuildArch:	noarch
+
+%description apidocs
+API documentation for pugixml library.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API biblioteki pugixml.
 
 %prep
 %setup -q
@@ -109,7 +122,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc docs/*
 %attr(755,root,root) %{_libdir}/libpugixml.so
 %{_includedir}/pugiconfig.hpp
 %{_includedir}/pugixml.hpp
@@ -121,3 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libpugixml.a
 %endif
+
+%files apidocs
+%defattr(644,root,root,755)
+%doc docs/*
